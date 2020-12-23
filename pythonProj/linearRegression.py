@@ -13,7 +13,7 @@ from sklearn import metrics
 # -> https://datatofish.com/select-rows-pandas-dataframe/
 
 # -- var do tipo pandas.core.frame.DataFrame
-training = pd.read_csv('training.csv', sep=';', engine='python')
+training = pd.read_csv('processedDataTraining.csv', sep=',', engine='python')
 
 # -- alguma informação sobre o dataset
 # print(training.shape)
@@ -33,7 +33,8 @@ training = pd.read_csv('training.csv', sep=';', engine='python')
 training = training.replace(' <=50K', 0)
 training = training.replace(' >=50K', 10)
 training = training.replace(' >50K', 10)
-X = training[['age', ' fnlwgt', ' education-num', ' capital-gain', ' capital-loss', ' hours-per-week']]
+X = training.drop([' salary-classification'], axis=1
+                  )
 y = training[' salary-classification']
 
 
@@ -45,13 +46,13 @@ coeff_df = pd.DataFrame(lm.coef_, X.columns, columns=['Coefficient'])
 print(coeff_df)
 
 # -- predicts
-test = pd.read_csv('test.csv', sep=';', engine='python')
+test = pd.read_csv('processedDataTest.csv', sep=',', engine='python')
 test = test.replace(' <=50K', 0)
 test = test.replace(' >=50K', 10)
 test = test.replace(' >50K', 10)
 
-X_test = training[['age', ' fnlwgt', ' education-num', ' capital-gain', ' capital-loss', ' hours-per-week']]
-y_test = training[' salary-classification']
+X_test = test.drop([' salary-classification'], axis=1)
+y_test = test[' salary-classification']
 predictions = lm.predict(X_test)
 # plt.scatter(y_test, predictions)
 # sns.distplot((y_test-predictions), bins=50);
