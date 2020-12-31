@@ -1,5 +1,5 @@
-from knn import KNN
+from neuralNetwork import neuralNetwork
 
-k = KNN()
-k.fit(20)
-k.predict()
+nn = neuralNetwork()
+nn.fit()
+nn.predict()
