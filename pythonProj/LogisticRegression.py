@@ -3,18 +3,26 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
-training = pd.read_csv('ProcessedDataTraining.csv')
-test = pd.read_csv('ProcessedDataTest.csv')
+class _LogisticRegression:
 
-x_train = training.drop(' salary-classification', axis=1)
-y_train = training[' salary-classification']
-x_test = test.drop(' salary-classification', axis=1)
-y_test = test[' salary-classification']
+    def __init__(self):
+        self.training = pd.read_csv('ProcessedDataTraining.csv')
+        self.test = pd.read_csv('ProcessedDataTest.csv')
 
-log_model = LogisticRegression()
-log_model.fit(x_train, y_train)
+        self.x_train = self.training.drop(' salary-classification', axis=1)
+        self.y_train = self.training[' salary-classification']
+        self.x_test = self.test.drop(' salary-classification', axis=1)
+        self.y_test = self.test[' salary-classification']
 
-predictions = log_model.predict(x_test)
+        self.log_model = LogisticRegression()
 
-# Note: 79.9% accuracy   Todo: Rerun if data changed
-print(confusion_matrix(y_test, predictions))
+    def fit(self):
+        self.log_model.fit(self.x_train, self.y_train)
+
+    def predict(self):
+        predictions = self.log_model.predict(self.x_test)
+
+        # Note: 79.9% accuracy   Todo: Rerun if data changed
+        print(confusion_matrix(self.y_test, predictions))
+
+

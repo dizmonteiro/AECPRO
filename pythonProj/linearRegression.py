@@ -11,51 +11,55 @@ from sklearn import metrics
 
 # -- Links possivelmente uteis
 # -> https://datatofish.com/select-rows-pandas-dataframe/
+class _LinearRegression:
+        
+    def __init__(self):
+        # -- var do tipo pandas.core.frame.DataFrame
+        self.training = pd.read_csv('processedDataTraining.csv', sep=',', engine='python')
+        self.lm = LinearRegression()
+    
+    def datasetInfo(self):
+        # -- Alguma informação sobre o dataset
+        print(self.training.shape)
+        print(self.training.info())
+        print(self.training.describe())
 
-# -- var do tipo pandas.core.frame.DataFrame
-training = pd.read_csv('processedDataTraining.csv', sep=',', engine='python')
+    def pairplot(self):
+        # -- Pairplot - pesado - evitar
+        sns.pairplot(self.training)
+        plt.show()    
 
-# -- alguma informação sobre o dataset
-# print(training.shape)
-# print(training.info())
-# print(training.describe())
+    # -- Histograma relativo a capital-gain
+    # -- Capital Gain - diferença entre o valor de revenda de um bem e o seu valor de compra
+    # training[' capital-gain'].plot(kind='hist')
+    # plt.show()
 
-# -- Pairplot - pesado - evitar
-# sns.pairplot(training)
-# plt.show()
+    # -- note: check if its needed
+    #training = training.replace(' <=50K', 0)
+    #training = training.replace(' >=50K', 10)
+    #training = training.replace(' >50K', 10)
+    def fit(self):
+        X = self.training.drop([' salary-classification'], axis=1
+                    )
+        y = self.training[' salary-classification']
+        
+        self.lm.fit(X,y)  
 
-# -- Histograma relativo a capital-gain
-# -- Capital Gain - diferença entre o valor de revenda de um bem e o seu valor de compra
-# training[' capital-gain'].plot(kind='hist')
-# plt.show()
+        print(self.lm.intercept_)
+        coeff_df = pd.DataFrame(self.lm.coef_, X.columns, columns=['Coefficient'])
+        print(coeff_df)
 
-# -- first model
-training = training.replace(' <=50K', 0)
-training = training.replace(' >=50K', 10)
-training = training.replace(' >50K', 10)
-X = training.drop([' salary-classification'], axis=1
-                  )
-y = training[' salary-classification']
+    def predict(self):
+        # -- predicts
+        test = pd.read_csv('processedDataTest.csv', sep=',', engine='python')
+        test = test.replace(' <=50K', 0)
+        test = test.replace(' >=50K', 10)
+        test = test.replace(' >50K', 10)
 
-
-lm = LinearRegression()
-lm.fit(X, y)
-
-print(lm.intercept_)
-coeff_df = pd.DataFrame(lm.coef_, X.columns, columns=['Coefficient'])
-print(coeff_df)
-
-# -- predicts
-test = pd.read_csv('processedDataTest.csv', sep=',', engine='python')
-test = test.replace(' <=50K', 0)
-test = test.replace(' >=50K', 10)
-test = test.replace(' >50K', 10)
-
-X_test = test.drop([' salary-classification'], axis=1)
-y_test = test[' salary-classification']
-predictions = lm.predict(X_test)
-# plt.scatter(y_test, predictions)
-# sns.distplot((y_test-predictions), bins=50);
-# plt.show()
-print(metrics.mean_absolute_error(y_test, predictions))
-np.savetxt('LinearRegressionPrediction.csv', predictions, delimiter=',')
+        X_test = test.drop([' salary-classification'], axis=1)
+        y_test = test[' salary-classification']
+        predictions = self.lm.predict(X_test)
+        # plt.scatter(y_test, predictions)
+        # sns.distplot((y_test-predictions), bins=50);
+        # plt.show()
+        print(metrics.mean_absolute_error(y_test, predictions))
