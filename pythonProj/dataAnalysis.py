@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # -- ToDo: mudar de volta para "training.csv"
-training = pd.read_csv('training.csv', sep=';', engine='python', header='infer')
-test = pd.read_csv('test.csv', sep=';', engine='python', header='infer')
+training = pd.read_csv('data/training.csv', sep=';', engine='python', header='infer')
+test = pd.read_csv('data/test.csv', sep=';', engine='python', header='infer')
 
 training = training.replace(' <=50K', 0)
 training = training.replace(' >=50K', 1)
@@ -14,9 +14,6 @@ test = test.replace(' >50K', 1)
 
 # -- ToDo: reduzir numero de workclasses e occupation
 # -- ToDo: ver numero de diferentes native country's. Se necessário reduzir quantidade
-
-# -- Correlation
-print(training.corr(method='spearman').to_string())
 
 # -- Note: 15 different occupations
 occupationCount = training[' occupation'].value_counts()
@@ -75,9 +72,11 @@ test = test.drop([' education'], axis=1)
 # -- DUMMIES --
 training = pd.get_dummies(training)
 test = pd.get_dummies(test)
+
 print(training.head().to_string())
 
 
+
 # --------------------- Export ---------------------
-training.to_csv('processedDataTraining.csv', index=False)
-test.to_csv('processedDataTest.csv', index=False)
+training.to_csv('data/processedDataTraining.csv', index=False)
+test.to_csv('data/processedDataTest.csv', index=False)

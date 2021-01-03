@@ -1,5 +1,5 @@
-from neuralNetwork import neuralNetwork
+from algorithms.SupportVectorMachines import SupportVectorMachines
 
-nn = neuralNetwork()
-nn.fit()
-nn.predict()
+lr = SupportVectorMachines('data/processedDataTraining2.csv', 'data/processedDataTest.csv')
+lr.fit()
+lr.predict()
