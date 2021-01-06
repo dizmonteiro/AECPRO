@@ -1,5 +1,8 @@
 from algorithms.SupportVectorMachines import SupportVectorMachines
+from algorithms.ensembleLearner import EnsembleLearner
+from algorithms.neuralNetwork import NeuralNetwork
 
-lr = SupportVectorMachines('data/processedDataTraining2.csv', 'data/processedDataTest.csv')
-lr.fit()
-lr.predict()
+lr = NeuralNetwork('data/processedDataTraining.csv', 'data/processedDataTest.csv', '')
+lr.gridSearch()
+#lr.fit()
+#lr.predict()

@@ -2,7 +2,8 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
-
+# TODO
+# PCA
 
 class SupportVectorMachines:
     def __init__(self, train, test):

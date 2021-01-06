@@ -2,7 +2,6 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.metrics import confusion_matrix
-from sklearn.dummy import DummyClassifier
 
 class _LogisticRegression:
 
