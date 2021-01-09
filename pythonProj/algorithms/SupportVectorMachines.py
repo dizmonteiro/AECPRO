@@ -2,8 +2,8 @@ import pandas as pd
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, confusion_matrix
-# TODO
-# PCA
+from sklearn.decomposition import PCA
+
 
 class SupportVectorMachines:
     def __init__(self, train, test):
@@ -14,6 +14,12 @@ class SupportVectorMachines:
         self.y_train = self.training[' salary-classification']
         self.x_test = self.test.drop(' salary-classification', axis=1)
         self.y_test = self.test[' salary-classification']
+
+        # PCA
+        self.pca = PCA(n_components=10)
+        self.pca.fit(self.x_train)
+        self.pca_train = self.pca.transform(self.x_train)
+        self.pca_test = self.pca.transform(self.x_test)
 
         self.model = SVC()
 
@@ -41,3 +47,10 @@ class SupportVectorMachines:
         print(confusion_matrix(self.y_test, grid_predictions))
 
         print(classification_report(self.y_test, grid_predictions))
+
+    def PCA(self):
+        self.model.fit(self.pca_train, self.y_train)
+        predictions = self.model.predict(self.pca_test)
+        print("SVC - PCA")
+        print(confusion_matrix(self.y_test, predictions))
+        print(classification_report(self.y_test, predictions))
